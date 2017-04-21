@@ -31,7 +31,10 @@
 
 @end
 
-@implementation ViewController
+@implementation ViewController{
+    NSString *xuehao;
+    NSString *mima;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -42,6 +45,8 @@
     [self.dbManager executeNonQuery:sql2];
     
     self.mainUrl = @"http://jw2005.scuteo.com/";
+    xuehao = @"201430252193";
+    mima = @"bme";
 }
 
 - (NSMutableData *)httpData{
@@ -79,7 +84,7 @@
 }
 
 - (IBAction)login:(id)sender {
-    NSString *paraStr = [NSString stringWithFormat:@"__VIEWSTATE=%@&txtUserName=201430252193&TextBox2=bmelhf2807301&txtSecretCode=%@&RadioButtonList1=学生&Button1=&lbLanguage=&hidPdrs=&hidsc=",self.viewState,self.txf.text];
+    NSString *paraStr = [NSString stringWithFormat:@"__VIEWSTATE=%@&txtUserName=%@&TextBox2=%@&txtSecretCode=%@&RadioButtonList1=学生&Button1=&lbLanguage=&hidPdrs=&hidsc=",self.viewState,xuehao,mima,self.txf.text];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/%@/default2.aspx",self.httpHost,self.randomStr]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -91,12 +96,12 @@
 }
 
 - (IBAction)courseGetting:(id)sender {
-    NSString *urlstr = [NSString stringWithFormat:@"http://%@/%@/xskbcx.aspx?xh=201430252193&xm=%@&gnmkdm=N121603",self.httpHost,self.randomStr,self.name];
+    NSString *urlstr = [NSString stringWithFormat:@"http://%@/%@/xskbcx.aspx?xh=%@&xm=%@&gnmkdm=N121603",self.httpHost,self.randomStr,xuehao ,self.name];
     urlstr = [urlstr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
     NSURL *url = [NSURL URLWithString:urlstr];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod= @"GET";
-    [request addValue:[NSString stringWithFormat:@"http://%@/%@/xs_main.aspx?xh=201430252193",self.httpHost,self.randomStr] forHTTPHeaderField:@"Referer"];//这句一定不能漏
+    [request addValue:[NSString stringWithFormat:@"http://%@/%@/xs_main.aspx?xh=%@",self.httpHost,self.randomStr,xuehao] forHTTPHeaderField:@"Referer"];//这句一定不能漏
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request];
     task.taskDescription = @"courseget";
     [task resume];
